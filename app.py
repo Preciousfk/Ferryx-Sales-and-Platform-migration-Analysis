@@ -18,8 +18,8 @@ st.markdown("Comparing **WooCommerce** vs. **Squarespace** performance.")
 
 
 Ferryx_metrics = duckdb.sql("""
-SELECT count(customer_identifier) as total_customers, 
-count(distinct(Customer_identifier)) as Unique_customers, 
+SELECT count(customer_identifier) as Total_Customers, 
+count(distinct(Customer_identifier)) as Unique_Customers, 
 count(Order_Number) as Total_Orders,
 Round(SUM(Item_Cost) - SUM(Order_Refund_Amount),2) AS Net_Product_Sales,
 ROUND(SUM(Order_Total_Amount - Order_Total_Tax_Amount - Order_Refund_Amount), 2) AS Net_Commercial_Revenue

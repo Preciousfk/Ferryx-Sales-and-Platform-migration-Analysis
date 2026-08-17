@@ -23,20 +23,20 @@ count(distinct(Customer_identifier)) as Unique_Customers,
 count(Order_Number) as Total_Orders,
 Round(SUM(Item_Cost) - SUM(Order_Refund_Amount),2) AS Net_Product_Sales,
 ROUND(SUM(Order_Total_Amount - Order_Total_Tax_Amount - Order_Refund_Amount), 2) AS Net_Commercial_Revenue
+count(distinct Case when Country_Code = 'GB' then Region end) as UK_Region_count,
+count(distinct case when Country_Code != 'GB' THEN Region end)as NON_UK_Region_count
 from read_csv_auto('Ferryx_Sales_Data.csv')
 ;
 
 """).df()
 
-st.subheader("📊 Detailed Metric Breakdown")
-
 # Extract row values
 row = Ferryx_metrics.iloc[0]
 
-st.subheader("📌 Overall Ferryx Performance")
+st.subheader("Overall Ferryx Performance")
 
 # Create 5 columns
-c1, c2, c3, c4, c5 = st.columns(5)
+c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
 
 with c1:
     with st.container(border=True):
@@ -53,6 +53,13 @@ with c4:
 with c5:
     with st.container(border=True):
         st.metric("Net Commercial Rev.", f"£{row['Net_Commercial_Revenue']:,.2f}")
+with c6:
+    with st.container(boarder=True):
+        st.metric("UK Region Count", f"{row['UK_Region_count']:,}")
+with c7:
+    with st.container(boarder=True):
+        st.metric(" Non UK Region Count", f"{row['NON_UK_Region_count']:,}")
+
 
 # # Format numeric values nicely
 # formatted_df = Ferryx_metrics.copy()
